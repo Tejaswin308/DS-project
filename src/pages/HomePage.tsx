@@ -104,23 +104,46 @@ export default function HomePage({
               />
 
               {/* Search + Add toolbar */}
-              <div className="flex gap-3 mt-6">
-                <div className="flex-1 relative">
+              <div
+                style={{
+                  display: 'flex',
+                  gap: '12px',
+                  alignItems: 'center',
+                  marginTop: '0px',
+                  marginBottom: '26px',
+                  position: 'relative',
+                  zIndex: 2,
+                }}
+              >
+                <div style={{ flex: 1, position: 'relative' }}>
                   <Search
-                    size={15}
-                    className="absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none"
-                    style={{ color: 'var(--c-text-3)' }}
+                    size={16}
+                    style={{
+                      position: 'absolute',
+                      left: '14px',
+                      top: '50%',
+                      transform: 'translateY(-50%)',
+                      color: 'var(--c-text-3)',
+                      pointerEvents: 'none',
+                    }}
                   />
                   <input
                     type="text"
                     placeholder="Search experiments..."
                     value={search}
                     onChange={e => setSearch(e.target.value)}
-                    className="w-full pl-10 pr-9 py-2.5 text-sm rounded-xl border outline-none transition-all"
                     style={{
+                      width: '100%',
+                      height: '46px',
+                      paddingLeft: '42px',
+                      paddingRight: '38px',
+                      fontSize: '14px',
+                      borderRadius: '14px',
+                      border: '1.5px solid var(--c-border)',
+                      outline: 'none',
                       background: 'var(--c-surface)',
                       color: 'var(--c-text)',
-                      borderColor: 'var(--c-border)',
+                      transition: 'all 200ms ease',
                     }}
                     onFocus={e => {
                       e.target.style.borderColor = 'var(--c-accent)';
@@ -135,26 +158,48 @@ export default function HomePage({
                   {search && (
                     <button
                       onClick={() => setSearch('')}
-                      className="absolute right-3 top-1/2 -translate-y-1/2"
-                      style={{ color: 'var(--c-text-3)' }}
+                      style={{
+                        position: 'absolute',
+                        right: '14px',
+                        top: '50%',
+                        transform: 'translateY(-50%)',
+                        color: 'var(--c-text-3)',
+                        background: 'transparent',
+                        border: 'none',
+                        cursor: 'pointer',
+                        display: 'flex',
+                        alignItems: 'center',
+                      }}
                       aria-label="Clear search"
                     >
-                      <X size={14} />
+                      <X size={15} />
                     </button>
                   )}
                 </div>
                 <button
                   onClick={() => setAddModalOpen(true)}
-                  className="btn-primary flex-shrink-0"
+                  className="btn-primary"
                   id="add-experiment-btn"
+                  style={{
+                    height: '46px',
+                    padding: '0 22px',
+                    borderRadius: '14px',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '8px',
+                    fontWeight: 600,
+                    fontSize: '14px',
+                    flexShrink: 0,
+                    cursor: 'pointer',
+                  }}
                 >
-                  <Plus size={15} />
+                  <Plus size={16} />
                   Add
                 </button>
               </div>
 
               {/* Number grid / empty state */}
-              <div className="mt-8" aria-label="Experiments grid">
+              <div style={{ marginTop: '0px' }} aria-label="Experiments grid">
                 {filteredExperiments.length === 0 ? (
                   <EmptyState hasSearch={!!search} onAdd={() => setAddModalOpen(true)} />
                 ) : (

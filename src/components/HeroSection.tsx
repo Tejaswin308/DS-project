@@ -145,7 +145,7 @@ export default function HeroSection({ profile, onEditProfile, onViewIdCard }: He
 
             {/* Quick stats */}
             <div style={{ display: 'flex', alignItems: 'center', gap: 24, marginTop: 36 }}>
-              <QuickStat number="05" label="Modules" />
+              <QuickStat number="06" label="Modules" />
               <div style={{ width: 1, height: 32, background: 'var(--c-border)', flexShrink: 0 }} />
               <QuickStat number="10" label="Experiments" />
               <div style={{ width: 1, height: 32, background: 'var(--c-border)', flexShrink: 0 }} />

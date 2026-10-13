@@ -9,7 +9,15 @@ interface ExperimentStatsProps {
 
 export default function ExperimentStats({ total, subTotal, completedPercent }: ExperimentStatsProps) {
   return (
-    <div className="grid grid-cols-3 gap-4 mt-6">
+    <div
+      style={{
+        display: 'grid',
+        gridTemplateColumns: 'repeat(3, minmax(0, 1fr))',
+        gap: '16px',
+        marginTop: '20px',
+        marginBottom: '26px',
+      }}
+    >
       <StatCard
         icon={<BarChart3 size={20} />}
         value={String(total).padStart(2, '0')}
@@ -45,16 +53,28 @@ function StatCard({
 }) {
   return (
     <div
-      className="stat-card flex flex-col items-center gap-2 text-center"
+      className="stat-card"
+      style={{
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'center',
+        padding: '20px 16px',
+        borderRadius: '16px',
+        background: 'var(--c-surface)',
+        border: '1px solid var(--c-border)',
+        boxShadow: 'var(--shadow-sm)',
+        transition: 'all 200ms ease',
+      }}
     >
       <div
-        className="w-10 h-10 rounded-xl flex items-center justify-center"
+        className="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0 mb-2"
         style={{ background: color + '18', color }}
       >
         {icon}
       </div>
       <div
-        className="text-2xl font-black leading-none"
+        className="text-2xl font-black leading-none mb-1"
         style={{ color: 'var(--c-text)' }}
       >
         {value}
@@ -68,3 +88,4 @@ function StatCard({
     </div>
   );
 }
+

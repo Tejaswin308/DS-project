@@ -77,37 +77,50 @@ export default function Header({ profile, onEditProfile }: HeaderProps) {
       <div className="container-max">
         <div className="flex items-center justify-between gap-4" style={{ height: 64 }}>
 
-          {/* LEFT — MBU Logo + Brand */}
+          {/* LEFT — Modern DS Lab Tech Logo Mark + Brand */}
           <a
             href="/"
             onClick={handleHomeClick}
-            className="flex items-center gap-3 flex-shrink-0 group cursor-pointer"
+            className="flex items-center gap-3.5 flex-shrink-0 group cursor-pointer"
             aria-label="DS Lab Home"
           >
-            {/* MBU Logo */}
-            <img
-              src="/mbu-logo.png"
-              alt="Mohan Babu University"
-              className="h-10 w-auto object-contain select-none"
-              draggable={false}
-            />
-
-            {/* Divider */}
+            {/* High-Tech Custom Science / Data Logo */}
             <div
-              className="hidden sm:block w-px h-8 flex-shrink-0"
-              style={{ background: 'var(--c-border)' }}
-            />
+              className="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0 shadow-md transition-transform duration-200 group-hover:scale-105"
+              style={{
+                background: 'linear-gradient(135deg, #0EA5A8 0%, #3B82F6 50%, #6366F1 100%)',
+                boxShadow: '0 4px 14px rgba(14, 165, 168, 0.35)',
+              }}
+            >
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                {/* Outer orbital data ring */}
+                <circle cx="12" cy="12" r="9" stroke="rgba(255,255,255,0.35)" strokeWidth="1.5" strokeDasharray="3 3" />
+                {/* Central analytical node */}
+                <circle cx="12" cy="12" r="3.2" fill="#FFFFFF" />
+                {/* Interconnected data graph nodes */}
+                <circle cx="7" cy="8" r="1.8" fill="#FFFFFF" />
+                <circle cx="17" cy="8" r="1.8" fill="#FFFFFF" />
+                <circle cx="16" cy="16" r="1.8" fill="#FFFFFF" />
+                <circle cx="8" cy="16" r="1.8" fill="#FFFFFF" />
+                {/* Connecting lines */}
+                <line x1="12" y1="12" x2="7" y2="8" stroke="#FFFFFF" strokeWidth="1.5" />
+                <line x1="12" y1="12" x2="17" y2="8" stroke="#FFFFFF" strokeWidth="1.5" />
+                <line x1="12" y1="12" x2="16" y2="16" stroke="#FFFFFF" strokeWidth="1.5" />
+                <line x1="12" y1="12" x2="8" y2="16" stroke="#FFFFFF" strokeWidth="1.5" />
+              </svg>
+            </div>
 
-            {/* DS Lab brand */}
-            <div className="hidden sm:block">
+            {/* Brand Title */}
+            <div>
               <div
-                className="font-black text-lg leading-none tracking-tight"
+                className="font-black text-lg leading-none tracking-tight flex items-center gap-1"
                 style={{ color: 'var(--c-text)' }}
               >
                 DS<span style={{ color: 'var(--c-accent)' }}> LAB</span>
+                <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse ml-0.5" />
               </div>
               <div
-                className="text-xs leading-none mt-0.5 font-medium hidden md:block"
+                className="text-[11px] leading-none mt-1 font-semibold tracking-wide uppercase hidden sm:block"
                 style={{ color: 'var(--c-text-3)' }}
               >
                 Data Science Laboratory
