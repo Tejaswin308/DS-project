@@ -1,10 +1,11 @@
 import React from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
-import { ArrowLeft, BookOpen, Target, Tag, Code2, FileText, BarChart3 } from 'lucide-react';
+import { ArrowLeft, BookOpen, Target, Tag, Code2, FileText, BarChart3, Terminal } from 'lucide-react';
 import type { Experiment } from '../types/experiment';
 import VideoPlayer from '../components/VideoPlayer';
 import GitHubLink from '../components/GitHubLink';
 import CodeBlock from '../components/CodeBlock';
+import InteractiveCodeEditor from '../components/InteractiveCodeEditor';
 
 interface ExperimentDetailsPageProps {
   experiments: Experiment[];
@@ -176,19 +177,33 @@ export default function ExperimentDetailsPage({ experiments }: ExperimentDetails
               </div>
             )}
 
-            {experiment.program && (
-              <div>
-                <SectionHeading icon={<FileText size={16} />} title="Program" />
-                <CodeBlock code={experiment.program} language="Python" />
+            {experiment.program ? (
+              <div className="pt-2">
+                <div className="flex items-center justify-between mb-3">
+                  <SectionHeading icon={<Terminal size={16} />} title="Interactive Code Editor & Runner" />
+                  <span
+                    className="text-xs font-semibold px-2.5 py-1 rounded-full border"
+                    style={{
+                      background: 'var(--c-accent-dim)',
+                      color: 'var(--c-accent)',
+                      borderColor: 'var(--c-border)',
+                    }}
+                  >
+                    ● Editable &amp; Executable
+                  </span>
+                </div>
+                <InteractiveCodeEditor
+                  initialCode={experiment.program}
+                  defaultOutput={experiment.output}
+                  title={experiment.title}
+                />
               </div>
-            )}
-
-            {experiment.output && (
+            ) : experiment.output ? (
               <div>
                 <SectionHeading icon={<BarChart3 size={16} />} title="Output" />
                 <CodeBlock code={experiment.output} language="Output" />
               </div>
-            )}
+            ) : null}
           </div>
         </section>
       )}

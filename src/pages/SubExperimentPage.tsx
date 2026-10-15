@@ -1,10 +1,11 @@
 import React from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
-import { ArrowLeft, Target, Code2, FileText, BarChart3 } from 'lucide-react';
+import { ArrowLeft, Target, Code2, FileText, BarChart3, Terminal } from 'lucide-react';
 import type { Experiment } from '../types/experiment';
 import VideoPlayer from '../components/VideoPlayer';
 import GitHubLink from '../components/GitHubLink';
 import CodeBlock from '../components/CodeBlock';
+import InteractiveCodeEditor from '../components/InteractiveCodeEditor';
 
 interface SubExperimentPageProps {
   experiments: Experiment[];
@@ -131,19 +132,33 @@ export default function SubExperimentPage({ experiments }: SubExperimentPageProp
           </div>
         )}
 
-        {subExp.program && (
-          <div>
-            <SectionHeading icon={<FileText size={16} />} title="Program" />
-            <CodeBlock code={subExp.program} language="Python" />
+        {subExp.program ? (
+          <div className="pt-2">
+            <div className="flex items-center justify-between mb-3">
+              <SectionHeading icon={<Terminal size={16} />} title="Interactive Code Editor & Runner" />
+              <span
+                className="text-xs font-semibold px-2.5 py-1 rounded-full border"
+                style={{
+                  background: 'var(--c-accent-dim)',
+                  color: 'var(--c-accent)',
+                  borderColor: 'var(--c-border)',
+                }}
+              >
+                ● Editable &amp; Executable
+              </span>
+            </div>
+            <InteractiveCodeEditor
+              initialCode={subExp.program}
+              defaultOutput={subExp.output}
+              title={subExp.title || experiment.title}
+            />
           </div>
-        )}
-
-        {subExp.output && (
+        ) : subExp.output ? (
           <div>
             <SectionHeading icon={<BarChart3 size={16} />} title="Output" />
             <CodeBlock code={subExp.output} language="Output" />
           </div>
-        )}
+        ) : null}
       </div>
 
       {/* Navigation between A and B */}
