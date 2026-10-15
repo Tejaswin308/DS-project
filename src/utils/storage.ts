@@ -30,12 +30,33 @@ export function loadExperiments(): Experiment[] {
   let stored = Array.isArray(parsed) ? parsed : [];
   let hasUpdates = false;
 
-  // Prune removed experiments (8, 9, 10) if loaded from earlier localStorage
-  const removedIds = new Set(['exp-008', 'exp-009', 'exp-010']);
+  // Prune removed experiments (9, 10) if loaded from earlier localStorage
+  const removedIds = new Set(['exp-009', 'exp-010']);
   const pruned = stored.filter(e => !removedIds.has(e.id) && e.number <= defaultExperiments.length);
   if (pruned.length !== stored.length) {
     stored = pruned;
     hasUpdates = true;
+  }
+
+  // Update experiment 7 if it's still old K-Means Clustering
+  const exp7Index = stored.findIndex(e => e.id === 'exp-007');
+  const defExp7 = defaultExperiments.find(e => e.id === 'exp-007');
+  if (exp7Index !== -1 && defExp7 && stored[exp7Index].title !== defExp7.title) {
+    stored[exp7Index] = defExp7;
+    hasUpdates = true;
+  }
+
+  // Ensure experiment 8 (Web Scraping using Beautiful Soup) is added or updated
+  const exp8Index = stored.findIndex(e => e.id === 'exp-008');
+  const defExp8 = defaultExperiments.find(e => e.id === 'exp-008');
+  if (defExp8) {
+    if (exp8Index === -1) {
+      stored = [...stored, defExp8].sort((a, b) => a.number - b.number);
+      hasUpdates = true;
+    } else if (stored[exp8Index].title !== defExp8.title) {
+      stored[exp8Index] = defExp8;
+      hasUpdates = true;
+    }
   }
 
   // If stored has fewer experiments than defaults, merge: keep stored edits + add missing defaults
@@ -46,7 +67,7 @@ export function loadExperiments(): Experiment[] {
     hasUpdates = true;
   }
 
-  // Populate default youtubeUrls if empty in stored experiments
+  // Always sync youtubeUrls from defaults (ensures replaced/unavailable videos are updated)
   const defaultMap = new Map(defaultExperiments.map(e => [e.id, e]));
   const enriched = stored.map(exp => {
     const def = defaultMap.get(exp.id);
@@ -55,15 +76,16 @@ export function loadExperiments(): Experiment[] {
     let updatedExp = { ...exp };
     let changed = false;
 
-    if ((!exp.youtubeUrl || !exp.youtubeUrl.trim()) && def.youtubeUrl) {
+    // Always override youtubeUrl from defaults so stale/unavailable URLs get refreshed
+    if (def.youtubeUrl && exp.youtubeUrl !== def.youtubeUrl) {
       updatedExp.youtubeUrl = def.youtubeUrl;
       changed = true;
     }
-    if (def.experimentA?.youtubeUrl && (!exp.experimentA?.youtubeUrl || !exp.experimentA.youtubeUrl.trim())) {
+    if (def.experimentA?.youtubeUrl && exp.experimentA?.youtubeUrl !== def.experimentA.youtubeUrl) {
       updatedExp.experimentA = { ...exp.experimentA, youtubeUrl: def.experimentA.youtubeUrl };
       changed = true;
     }
-    if (def.experimentB?.youtubeUrl && (!exp.experimentB?.youtubeUrl || !exp.experimentB.youtubeUrl.trim())) {
+    if (def.experimentB?.youtubeUrl && exp.experimentB?.youtubeUrl !== def.experimentB.youtubeUrl) {
       updatedExp.experimentB = { ...exp.experimentB, youtubeUrl: def.experimentB.youtubeUrl };
       changed = true;
     }
