@@ -86,12 +86,17 @@ export function loadStudentProfile(): StudentProfile {
   // Merge defaults for any new fields added since last save
   const merged = { ...defaultStudent, ...parsed };
   
-  // Upgrade generic placeholders if present
-  if (merged.name === 'Your Name') merged.name = defaultStudent.name;
-  if (merged.rollNo === 'Your Roll Number') merged.rollNo = defaultStudent.rollNo;
+  // Upgrade old defaults or placeholders if present
+  if (merged.name === 'Your Name' || merged.name === 'Tejaswini Reddy') merged.name = defaultStudent.name;
+  if (merged.rollNo === 'Your Roll Number' || merged.rollNo === '24102A030088') merged.rollNo = defaultStudent.rollNo;
   if (merged.assistantProfessor === 'Faculty Name') merged.assistantProfessor = defaultStudent.assistantProfessor;
   if (merged.section === 'DS-1' || !merged.section) merged.section = defaultStudent.section;
+  if (!merged.photo) merged.photo = defaultStudent.photo;
+  if (!merged.website) merged.website = defaultStudent.website;
+  if (!merged.linkedin) merged.linkedin = defaultStudent.linkedin;
 
+  // Persist updated profile
+  saveStudentProfile(merged);
   return merged;
 }
 

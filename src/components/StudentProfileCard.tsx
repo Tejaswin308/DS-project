@@ -176,6 +176,7 @@ export default function StudentProfileCard({ profile, onEdit, onViewIdCard }: St
           }}
         >
           <button
+            id="edit-profile-btn"
             onClick={onEdit}
             style={{
               display: 'flex',
@@ -209,6 +210,7 @@ export default function StudentProfileCard({ profile, onEdit, onViewIdCard }: St
           </button>
 
           <button
+            id="view-id-card-btn"
             onClick={onViewIdCard ?? onEdit}
             style={{
               display: 'flex',

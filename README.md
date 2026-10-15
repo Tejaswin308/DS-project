@@ -272,11 +272,13 @@ If local data is cleared, the system seamlessly seeds back the complete 10 defau
 
 ## 👩‍💻 Student & Mentorship Details
 
-- **Student Developer:** [Tejaswini Reddy](https://github.com/Tejaswin308)
-- **Roll Number:** `24102A030088`
+- **Student Developer:** [M.Tejaswini](https://portfolio-lovat-eight-q1hh4pwhhe.vercel.app/)
+- **Roll Number:** `24102A030079`
 - **Department:** Data Science
 - **Course / Subject:** Data Science Laboratory
 - **Under the Guidance of:** **S. BOSUBABU SIR** (Assistant Professor)
+- **Portfolio:** [portfolio-lovat-eight-q1hh4pwhhe.vercel.app](https://portfolio-lovat-eight-q1hh4pwhhe.vercel.app/)
+- **LinkedIn:** [Tejaswini Reddy](https://www.linkedin.com/in/tejaswini-reddy-785a47344)
 - **LeetCode:** [Tejaswinireddy_30](https://leetcode.com/u/Tejaswinireddy_30/)
 - **GitHub:** [@Tejaswin308](https://github.com/Tejaswin308)
 

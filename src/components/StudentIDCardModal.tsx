@@ -188,7 +188,7 @@ export default function StudentIDCardModal({
                           border: '1px solid rgba(14, 165, 168, 0.4)',
                         }}
                       >
-                        {profile.rollNo || '24102A030088'}
+                        {profile.rollNo || '24102A030079'}
                       </div>
                       <div className="text-xs text-slate-300 mt-2 font-medium leading-snug">
                         <span className="text-slate-400 text-[11px]">Degree: </span>
@@ -263,7 +263,7 @@ export default function StudentIDCardModal({
                         <rect x="133" y="0" width="4" height="26" fill="#ffffff" />
                       </svg>
                       <span className="text-[9px] text-slate-400 font-mono tracking-widest mt-0.5">
-                        {profile.rollNo || '24102A030088'}
+                        {profile.rollNo || '24102A030079'}
                       </span>
                     </div>
 
@@ -333,24 +333,61 @@ export default function StudentIDCardModal({
                     </p>
                   </div>
 
+                  {/* Student Portfolio & Links */}
+                  <div
+                    className="rounded-xl p-3 mt-3 space-y-1.5"
+                    style={{
+                      background: 'rgba(14, 165, 168, 0.08)',
+                      border: '1px solid rgba(14, 165, 168, 0.25)',
+                    }}
+                  >
+                    <div className="text-[10px] uppercase font-bold text-[#0EA5A8] tracking-wider flex items-center justify-between">
+                      <span>Student Portfolio &amp; Links</span>
+                      <span className="text-[9px] text-slate-400 font-mono">{profile.rollNo || '24102A030079'}</span>
+                    </div>
+                    {profile.website && (
+                      <div className="text-[11px] text-slate-300 truncate">
+                        <span className="text-slate-400">Portfolio: </span>
+                        <a
+                          href={profile.website}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-[#0DD9DC] hover:underline font-medium"
+                        >
+                          {profile.website.replace('https://', '')}
+                        </a>
+                      </div>
+                    )}
+                    {profile.linkedin && (
+                      <div className="text-[11px] text-slate-300 truncate">
+                        <span className="text-slate-400">LinkedIn: </span>
+                        <a
+                          href={profile.linkedin}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-[#0DD9DC] hover:underline font-medium"
+                        >
+                          linkedin.com/in/tejaswini-reddy
+                        </a>
+                      </div>
+                    )}
+                  </div>
+
                   {/* University Address & Contact */}
                   <div
-                    className="rounded-xl p-3.5 mt-3 space-y-1.5"
+                    className="rounded-xl p-3 mt-2.5 space-y-1"
                     style={{
                       background: 'rgba(255, 255, 255, 0.04)',
                       border: '1px solid rgba(255, 255, 255, 0.08)',
                     }}
                   >
-                    <div className="text-[10px] uppercase font-bold text-[#0EA5A8] tracking-wider">
+                    <div className="text-[9.5px] uppercase font-bold text-slate-400 tracking-wider">
                       Campus Office
                     </div>
-                    <div className="text-[11px] text-slate-200 font-medium">
-                      Mohan Babu University Campus, Sree Sainath Nagar, A.Rangampet, Tirupati, AP - 517102
+                    <div className="text-[10.5px] text-slate-200 font-medium">
+                      Mohan Babu University Campus, Sree Sainath Nagar, Tirupati, AP - 517102
                     </div>
-                    <div className="text-[11px] text-slate-400">
-                      Emergency Contact: <span className="text-white font-semibold">+91 877 3066900</span>
-                    </div>
-                    <div className="text-[11px] text-slate-400">
+                    <div className="text-[10px] text-slate-400">
                       Email: <span className="text-white font-semibold">info@mbu.asia</span> · Website: <span className="text-white font-semibold">mbu.asia</span>
                     </div>
                   </div>
@@ -362,14 +399,17 @@ export default function StudentIDCardModal({
                       <br />
                       Valid through: <span className="text-white font-medium">May 2028</span>
                     </div>
-                    <div
-                      className="w-14 h-14 bg-white rounded-lg p-1 flex items-center justify-center flex-shrink-0"
-                      title="MBU Student QR"
+                    <a
+                      href={profile.website || '#'}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="w-14 h-14 bg-white rounded-lg p-1 flex items-center justify-center flex-shrink-0 hover:scale-105 transition-transform"
+                      title="Click / Scan to open Portfolio"
                     >
                       <svg width="48" height="48" viewBox="0 0 24 24" fill="#000000">
                         <path d="M2 2h8v8H2V2zm2 2v4h4V4H4zm10-2h8v8h-8V2zm2 2v4h4V4h-4zM2 14h8v8H2v-8zm2 2v4h4v-4H4zm14 2h4v4h-4v-4zm-4-4h4v2h-4v-2zm2 4h-2v4h2v-4zm2-2h2v2h-2v-2zm-6-2h2v2h-2v-2z" />
                       </svg>
-                    </div>
+                    </a>
                   </div>
                 </div>
 
