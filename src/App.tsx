@@ -5,6 +5,7 @@ import AppLayout from './layouts/AppLayout';
 import HomePage from './pages/HomePage';
 import ModulesPage from './pages/ModulesPage';
 import ToolsPage from './pages/ToolsPage';
+import ProjectsPage from './pages/ProjectsPage';
 import ExperimentDetailsPage from './pages/ExperimentDetailsPage';
 import SubExperimentPage from './pages/SubExperimentPage';
 import NotFoundPage from './pages/NotFoundPage';
@@ -57,6 +58,8 @@ export default function App() {
             <Route path="/modules" element={<ModulesPage />} />
             {/* Tools */}
             <Route path="/tools" element={<ToolsPage />} />
+            {/* Projects */}
+            <Route path="/projects" element={<ProjectsPage />} />
             {/* Experiment details */}
             <Route
               path="/experiment/:id"

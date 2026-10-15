@@ -49,6 +49,7 @@ export default function Header({ profile, onEditProfile }: HeaderProps) {
     { label: 'Experiments', href: '/experiments' },
     { label: 'Modules', href: '/modules' },
     { label: 'Tools', href: '/tools' },
+    { label: 'Projects', href: '/projects' },
   ];
 
   const isActive = (href: string) => {
