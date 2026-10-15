@@ -28,17 +28,26 @@ export function loadExperiments(): Experiment[] {
   }
   const parsed = safeJsonParse<Experiment[]>(raw, []);
   let stored = Array.isArray(parsed) ? parsed : [];
+  let hasUpdates = false;
+
+  // Prune removed experiments (8, 9, 10) if loaded from earlier localStorage
+  const removedIds = new Set(['exp-008', 'exp-009', 'exp-010']);
+  const pruned = stored.filter(e => !removedIds.has(e.id) && e.number <= defaultExperiments.length);
+  if (pruned.length !== stored.length) {
+    stored = pruned;
+    hasUpdates = true;
+  }
 
   // If stored has fewer experiments than defaults, merge: keep stored edits + add missing defaults
   if (stored.length < defaultExperiments.length) {
     const storedIds = new Set(stored.map(e => e.id));
     const missing = defaultExperiments.filter(e => !storedIds.has(e.id));
     stored = [...stored, ...missing].sort((a, b) => a.number - b.number);
+    hasUpdates = true;
   }
 
   // Populate default youtubeUrls if empty in stored experiments
   const defaultMap = new Map(defaultExperiments.map(e => [e.id, e]));
-  let hasUpdates = false;
   const enriched = stored.map(exp => {
     const def = defaultMap.get(exp.id);
     if (!def) return exp;
