@@ -7,26 +7,21 @@ import {
   Sparkles,
   FolderGit2,
   CheckCircle2,
-  Layers,
   Code2,
-  Cpu,
   HeartHandshake,
   Activity,
   FlaskConical,
   CheckSquare,
-  Cloud,
-  Terminal,
   ArrowRight,
   Star,
   Globe,
-  GraduationCap,
 } from 'lucide-react';
 
 interface Project {
   id: string;
   title: string;
   subtitle: string;
-  category: 'Full Stack' | 'Data Science' | 'Web Apps' | 'Cloud & Systems';
+  category: 'Full Stack' | 'Data Science' | 'Web Apps';
   featured: boolean;
   status: 'Flagship' | 'Active' | 'Completed' | 'Open Source';
   description: string;
@@ -130,53 +125,9 @@ const projectsData: Project[] = [
     accentColor: '#F59E0B',
     badgeBg: 'rgba(245, 158, 11, 0.12)',
   },
-  {
-    id: 'servicenow-itsm',
-    title: 'AICTE ServiceNow ITSM Solutions',
-    subtitle: 'Enterprise IT Service Management & Automated Workflows',
-    category: 'Cloud & Systems',
-    featured: false,
-    status: 'Completed',
-    description:
-      'Enterprise-grade IT Service Management workflows built during the AICTE Virtual Internship program. Encompasses automated incident resolution, ITIL service catalogs, and business rule orchestration.',
-    highlights: [
-      'Automated incident triage and assignment routing using ServiceNow Business Rules',
-      'Self-service IT request catalog with automated approval workflows',
-      'Enterprise SLA monitoring and automated escalation matrices',
-      'Formally evaluated and certified as part of AICTE cloud virtual internship',
-    ],
-    tags: ['ServiceNow', 'JavaScript', 'ITSM', 'Cloud Workflows', 'ITIL', 'Enterprise'],
-    githubUrl: 'https://github.com/Tejaswin308',
-    demoUrl: 'https://portfolio-lovat-eight-q1hh4pwhhe.vercel.app/#achievements',
-    icon: <Cloud size={22} className="text-blue-400" />,
-    accentColor: '#3B82F6',
-    badgeBg: 'rgba(59, 130, 246, 0.12)',
-  },
-  {
-    id: 'dsa-competitive',
-    title: 'Algorithms & Competitive Programming Suite',
-    subtitle: 'Data Structures, Dynamic Programming & LeetCode Solutions',
-    category: 'Cloud & Systems',
-    featured: false,
-    status: 'Open Source',
-    description:
-      'Curated repository of algorithmic solutions and problem breakdowns across LeetCode, CodeChef, and Codeforces, covering high-performance Data Structures and mathematical optimization.',
-    highlights: [
-      '50+ thoroughly tested solutions in Java and Python categorized by pattern',
-      'In-depth time & space complexity analysis (Big-O proofs) for each algorithm',
-      'Extensive test cases covering edge conditions, recursion depth, and boundary cases',
-      'Direct link to active LeetCode competitive profile (Tejaswinireddy_30)',
-    ],
-    tags: ['Java', 'Python', 'Data Structures', 'Dynamic Programming', 'Graph Theory'],
-    githubUrl: 'https://github.com/Tejaswin308',
-    demoUrl: 'https://leetcode.com/u/Tejaswinireddy_30/',
-    icon: <Cpu size={22} className="text-emerald-400" />,
-    accentColor: '#10B981',
-    badgeBg: 'rgba(16, 185, 129, 0.12)',
-  },
 ];
 
-type CategoryFilter = 'All' | 'Featured' | 'Full Stack' | 'Data Science' | 'Web Apps' | 'Cloud & Systems';
+type CategoryFilter = 'All' | 'Featured' | 'Full Stack' | 'Data Science' | 'Web Apps';
 
 export default function ProjectsPage() {
   const [searchQuery, setSearchQuery] = useState('');
@@ -202,7 +153,7 @@ export default function ProjectsPage() {
     });
   }, [searchQuery, selectedCategory]);
 
-  const categories: CategoryFilter[] = ['All', 'Featured', 'Full Stack', 'Data Science', 'Web Apps', 'Cloud & Systems'];
+  const categories: CategoryFilter[] = ['All', 'Featured', 'Full Stack', 'Data Science', 'Web Apps'];
 
   return (
     <main className="page-enter" style={{ paddingBottom: '90px' }}>
@@ -315,8 +266,8 @@ export default function ProjectsPage() {
                   border: '1px solid var(--c-border)',
                 }}
               >
-                <div style={{ fontSize: '20px', fontWeight: 800, color: 'var(--c-accent)' }}>6+</div>
-                <div style={{ fontSize: '11.5px', color: 'var(--c-text-3)', fontWeight: 600 }}>Major Projects</div>
+                <div style={{ fontSize: '20px', fontWeight: 800, color: 'var(--c-accent)' }}>4</div>
+                <div style={{ fontSize: '11.5px', color: 'var(--c-text-3)', fontWeight: 600 }}>Core Projects</div>
               </div>
 
               <div
@@ -327,7 +278,7 @@ export default function ProjectsPage() {
                   border: '1px solid var(--c-border)',
                 }}
               >
-                <div style={{ fontSize: '20px', fontWeight: 800, color: '#38BDF8' }}>12+</div>
+                <div style={{ fontSize: '20px', fontWeight: 800, color: '#38BDF8' }}>10+</div>
                 <div style={{ fontSize: '11.5px', color: 'var(--c-text-3)', fontWeight: 600 }}>Technologies</div>
               </div>
 
