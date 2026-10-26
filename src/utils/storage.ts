@@ -30,76 +30,59 @@ export function loadExperiments(): Experiment[] {
   let stored = Array.isArray(parsed) ? parsed : [];
   let hasUpdates = false;
 
-  // Prune removed experiments (9, 10) if loaded from earlier localStorage
-  const removedIds = new Set(['exp-009', 'exp-010']);
-  const pruned = stored.filter(e => !removedIds.has(e.id) && e.number <= defaultExperiments.length);
+  // Prune any experiments beyond the default experiments list
+  const validIds = new Set(defaultExperiments.map(e => e.id));
+  const pruned = stored.filter(e => validIds.has(e.id) && e.number <= defaultExperiments.length);
   if (pruned.length !== stored.length) {
     stored = pruned;
     hasUpdates = true;
   }
 
-  // Update experiment 7 if it's still old K-Means Clustering
-  const exp7Index = stored.findIndex(e => e.id === 'exp-007');
-  const defExp7 = defaultExperiments.find(e => e.id === 'exp-007');
-  if (exp7Index !== -1 && defExp7 && stored[exp7Index].title !== defExp7.title) {
-    stored[exp7Index] = defExp7;
-    hasUpdates = true;
-  }
-
-  // Ensure experiment 8 (Web Scraping using Beautiful Soup) is added or updated
-  const exp8Index = stored.findIndex(e => e.id === 'exp-008');
-  const defExp8 = defaultExperiments.find(e => e.id === 'exp-008');
-  if (defExp8) {
-    if (exp8Index === -1) {
-      stored = [...stored, defExp8].sort((a, b) => a.number - b.number);
+  // Ensure all default experiments exist and titles match the updated curriculum
+  const updatedList: Experiment[] = [];
+  for (const def of defaultExperiments) {
+    const existing = stored.find(e => e.id === def.id || e.number === def.number);
+    if (!existing) {
+      updatedList.push(def);
       hasUpdates = true;
-    } else if (stored[exp8Index].title !== defExp8.title) {
-      stored[exp8Index] = defExp8;
-      hasUpdates = true;
+    } else {
+      let item = { ...existing };
+      // If the title doesn't match the new curriculum, update all experiment metadata from default
+      if (item.title !== def.title) {
+        item = {
+          ...def,
+          id: existing.id || def.id,
+          number: def.number,
+        };
+        hasUpdates = true;
+      } else {
+        // Ensure sub-experiments and video URLs are synchronized
+        if (def.youtubeUrl && item.youtubeUrl !== def.youtubeUrl) {
+          item.youtubeUrl = def.youtubeUrl;
+          hasUpdates = true;
+        }
+        if (def.experimentA?.youtubeUrl && item.experimentA?.youtubeUrl !== def.experimentA.youtubeUrl) {
+          item.experimentA = { ...item.experimentA, youtubeUrl: def.experimentA.youtubeUrl };
+          hasUpdates = true;
+        }
+        if (def.experimentB?.youtubeUrl && item.experimentB?.youtubeUrl !== def.experimentB.youtubeUrl) {
+          item.experimentB = { ...item.experimentB, youtubeUrl: def.experimentB.youtubeUrl };
+          hasUpdates = true;
+        }
+      }
+      updatedList.push(item);
     }
   }
 
-  // If stored has fewer experiments than defaults, merge: keep stored edits + add missing defaults
-  if (stored.length < defaultExperiments.length) {
-    const storedIds = new Set(stored.map(e => e.id));
-    const missing = defaultExperiments.filter(e => !storedIds.has(e.id));
-    stored = [...stored, ...missing].sort((a, b) => a.number - b.number);
-    hasUpdates = true;
+  // Sort by experiment number
+  updatedList.sort((a, b) => a.number - b.number);
+
+  if (hasUpdates || updatedList.length !== stored.length) {
+    saveExperiments(updatedList);
+    return updatedList;
   }
 
-  // Always sync youtubeUrls from defaults (ensures replaced/unavailable videos are updated)
-  const defaultMap = new Map(defaultExperiments.map(e => [e.id, e]));
-  const enriched = stored.map(exp => {
-    const def = defaultMap.get(exp.id);
-    if (!def) return exp;
-
-    let updatedExp = { ...exp };
-    let changed = false;
-
-    // Always override youtubeUrl from defaults so stale/unavailable URLs get refreshed
-    if (def.youtubeUrl && exp.youtubeUrl !== def.youtubeUrl) {
-      updatedExp.youtubeUrl = def.youtubeUrl;
-      changed = true;
-    }
-    if (def.experimentA?.youtubeUrl && exp.experimentA?.youtubeUrl !== def.experimentA.youtubeUrl) {
-      updatedExp.experimentA = { ...exp.experimentA, youtubeUrl: def.experimentA.youtubeUrl };
-      changed = true;
-    }
-    if (def.experimentB?.youtubeUrl && exp.experimentB?.youtubeUrl !== def.experimentB.youtubeUrl) {
-      updatedExp.experimentB = { ...exp.experimentB, youtubeUrl: def.experimentB.youtubeUrl };
-      changed = true;
-    }
-
-    if (changed) hasUpdates = true;
-    return updatedExp;
-  });
-
-  if (hasUpdates) {
-    saveExperiments(enriched);
-    return enriched;
-  }
-
-  return stored;
+  return updatedList;
 }
 
 export function saveExperiments(experiments: Experiment[]): void {

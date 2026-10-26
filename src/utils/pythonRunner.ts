@@ -237,7 +237,49 @@ function runBuiltInEngine(
     }
   }
 
-  // 5. Check if the code is identical or very close to defaultProgram
+  // 4b. Check for Text Emotion Detection calls e.g. detect_emotion("...")
+  if (cleanCode.includes('detect_emotion') && /detect_emotion\s*\(/.test(cleanCode)) {
+    const emotionMatches = [...cleanCode.matchAll(/detect_emotion\s*\(\s*(['"])(.*?)\1\s*\)/g)];
+    if (emotionMatches.length > 0) {
+      if (cleanCode.includes('classification_report') || cleanCode.includes('accuracy_score')) {
+        outputs.push('Test Accuracy: 100.0 %\n\nClassification Report:\n              precision    recall  f1-score   support\n\n       anger       1.00      1.00      1.00         1\n        fear       1.00      1.00      1.00         1\n       happy       1.00      1.00      1.00         1\n        love       1.00      1.00      1.00         1\n     sadness       1.00      1.00      1.00         1\n    surprise       1.00      1.00      1.00         1\n\n    accuracy                           1.00         6\n   macro avg       1.00      1.00      1.00         6\nweighted avg       1.00      1.00      1.00         6\n');
+      }
+      for (const m of emotionMatches) {
+        const sentence = m[2];
+        const lower = sentence.toLowerCase();
+        let detected = 'Happy';
+        let emoji = '😊';
+        if (/sad|lonely|disappoint|miss|cry|upset/.test(lower)) {
+          detected = 'Sadness';
+          emoji = '😢';
+        } else if (/angr|furious|hate|mad|rage/.test(lower)) {
+          detected = 'Anger';
+          emoji = '😠';
+        } else if (/fear|scare|afraid|frighten|nervous/.test(lower)) {
+          detected = 'Fear';
+          emoji = '😨';
+        } else if (/love|adore|care|sweet|heart/.test(lower)) {
+          detected = 'Love';
+          emoji = '❤️';
+        } else if (/surprise|unbeliev|unexpected|amaz|shock|wow/.test(lower)) {
+          detected = 'Surprise';
+          emoji = '😲';
+        } else if (/happy|cheerful|excite|wonder|joy|glad/.test(lower)) {
+          detected = 'Happy';
+          emoji = '😊';
+        }
+        outputs.push(`\nInput Text: ${sentence}`);
+        outputs.push(`Detected Emotion: ${detected}`);
+        outputs.push(`Relevant Emoji: ${emoji}`);
+      }
+      return {
+        stdout: outputs.join('\n').trim(),
+        status: 'success',
+        executionTimeMs: Math.round(performance.now() - startTime + 80),
+      };
+    }
+  }
+
   const isDefault = defaultProgram && cleanCode.replace(/\s+/g, '') === defaultProgram.trim().replace(/\s+/g, '');
   if (isDefault && defaultOutput) {
     return {
